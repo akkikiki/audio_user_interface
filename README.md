@@ -2,7 +2,7 @@
 
 ## Demo
 
-![Demo Video](./screen_capture.mov)
+[![Demo Video](assets/thumbnail.png)](assets/screen_capture.mov)
 
 ## Setup Instructions
 

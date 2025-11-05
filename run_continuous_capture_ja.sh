@@ -7,6 +7,7 @@ python capture_and_analyze.py \
   --no-stream \
   --keep-screenshot \
   --interval 30 \
+  --max-tokens 100 \
   --speak \
   --voice "Kyoko" \
   --model "mlx-community/gemma-3n-E2B-it-8bit" \

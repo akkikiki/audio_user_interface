@@ -1,5 +1,9 @@
 # audio_user_interface
 
+## Demo
+
+![Demo Video](./screen_capture.mov)
+
 ## Setup Instructions
 
 ### Prerequisites

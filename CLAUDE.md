@@ -5,7 +5,7 @@
 Capture a screenshot, analyze it with VL model, and speak the description:
 
 ```bash
-python capture_and_analyze.py \
+python scripts/capture_and_analyze.py \
   --no-stream \
   --keep-screenshot \
   --speak \

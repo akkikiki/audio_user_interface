@@ -2,7 +2,8 @@
 # Voice Input and Transcription Runner
 # Records a single voice input and types out the transcription
 
-python voice_input.py \
+SCRIPT_DIR="$(dirname "$0")"
+python "$SCRIPT_DIR/voice_input.py" \
   --duration 5 \
   --type \
   --prompt "Transcribe the speech in this audio file. Only output the transcribed text, nothing else." \

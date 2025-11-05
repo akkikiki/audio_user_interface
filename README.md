@@ -72,10 +72,10 @@ See `requirements.txt` for the complete list of dependencies.
 
 ### Voice Options
 
-When using the `--speak` flag with `capture_and_analyze.py`, remember to use the Ryoko voice for better quality:
+When using the `--speak` flag with `scripts/capture_and_analyze.py`, remember to use the Ryoko voice for better quality:
 
 ```bash
-python capture_and_analyze.py --speak --voice "Ryoko"
+python scripts/capture_and_analyze.py --speak --voice "Ryoko"
 ```
 
 Note: The `--voice` parameter works with macOS text-to-speech. Use `say -v ?` to list all available voices.

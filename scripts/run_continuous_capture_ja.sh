@@ -1,8 +1,9 @@
-run_continuous_capture_ja.sh#!/bin/bash
+#!/bin/bash
 # Continuous Screen Capture and Analysis Runner
 # Captures and analyzes screen every 30 seconds
 
-python capture_and_analyze.py \
+SCRIPT_DIR="$(dirname "$0")"
+python "$SCRIPT_DIR/capture_and_analyze.py" \
   --continuous \
   --no-stream \
   --keep-screenshot \

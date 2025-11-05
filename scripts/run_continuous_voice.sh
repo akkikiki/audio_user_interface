@@ -2,7 +2,8 @@
 # Continuous Voice Input Runner
 # Records and types out transcriptions continuously
 
-python voice_input.py \
+SCRIPT_DIR="$(dirname "$0")"
+python "$SCRIPT_DIR/voice_input.py" \
   --continuous \
   --duration 5 \
   --interval 10 \

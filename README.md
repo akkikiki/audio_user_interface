@@ -2,7 +2,7 @@
 
 ## Demo
 
-assets/screen_capture.mov
+https://github.com/akkikiki/audio_user_interface/blob/main/assets/screen_capture.mov
 
 ## Setup Instructions
 

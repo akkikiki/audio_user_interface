@@ -2,7 +2,8 @@
 
 ## Demo
 
-https://github.com/user-attachments/assets/6fdfa6da-bf31-41b6-8eae-4aa4873caaec
+https://github.com/user-attachments/assets/7f51cdb4-adf5-4601-8207-45721efd5ad7
+
 
 
 ## Setup Instructions

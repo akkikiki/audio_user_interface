@@ -10,3 +10,4 @@ python capture_and_analyze.py \
   --speak \
   --prompt "Briefly describe the current screen activity. Please keep it under 100 words" \
   --system "You are a screen monitoring assistant."
+#  --prompt "Briefly describe the current screen activity. Please keep it under 100 words" \

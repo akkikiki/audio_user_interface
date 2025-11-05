@@ -57,12 +57,14 @@ def capture_screenshot(output_path=None):
     return output_path
 
 
-def text_to_speech(text):
+def text_to_speech(text, voice=None):
     """
     Convert text to speech using macOS 'say' command.
 
     Args:
         text: Text to speak
+        voice: Voice name to use (e.g., 'Kyoko' for Japanese, 'Samantha' for English)
+               Use 'say -v ?' to list all available voices
     """
     if not text or not text.strip():
         return
@@ -70,7 +72,11 @@ def text_to_speech(text):
     print("\nSpeaking response...")
     try:
         # Use macOS say command
-        subprocess.run(['say', text], check=True)
+        cmd = ['say']
+        if voice:
+            cmd.extend(['-v', voice])
+        cmd.append(text)
+        subprocess.run(cmd, check=True)
     except subprocess.CalledProcessError as e:
         print(f"Error with text-to-speech: {e}", file=sys.stderr)
     except FileNotFoundError:
@@ -211,6 +217,10 @@ def main():
         action="store_true",
         help="Read the response aloud using text-to-speech (macOS only)"
     )
+    parser.add_argument(
+        "--voice", "-v",
+        help="Voice to use for text-to-speech (e.g., 'Kyoko' for Japanese, 'Samantha' for English). Use 'say -v ?' to list all available voices."
+    )
 
     args = parser.parse_args()
 
@@ -241,7 +251,7 @@ def main():
 
                     # Speak the response if requested
                     if args.speak and response_text:
-                        text_to_speech(response_text)
+                        text_to_speech(response_text, voice=args.voice)
                 finally:
                     # Clean up screenshot unless user wants to keep it
                     if not args.keep_screenshot and not args.output:
@@ -271,7 +281,7 @@ def main():
 
             # Speak the response if requested
             if args.speak and response_text:
-                text_to_speech(response_text)
+                text_to_speech(response_text, voice=args.voice)
         finally:
             # Clean up screenshot unless user wants to keep it
             if not args.keep_screenshot and not args.output:

@@ -139,16 +139,15 @@ def send_to_endpoint(image_path, prompt, model="mlx-community/gemma-3n-E2B-it-4b
                     response_text += decoded_line + " "
             print("-" * 80)
         else:
-            print("Response:")
-            print("-" * 80)
             response_json = response.json()
-            print(json.dumps(response_json, indent=2))
-            print("-" * 80)
             # Extract text from JSON response (adjust key based on your API's response format)
             if isinstance(response_json, dict):
                 response_text = response_json.get('text', response_json.get('response', str(response_json)))
             else:
                 response_text = str(response_json)
+
+            # Print only the text
+            print(response_text)
 
         return response, response_text.strip()
 

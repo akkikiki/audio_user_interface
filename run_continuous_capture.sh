@@ -4,6 +4,9 @@
 
 python capture_and_analyze.py \
   --continuous \
+  --no-stream \
+  --keep-screenshot \
   --interval 30 \
-  --prompt "Briefly describe the current screen activity" \
+  --speak \
+  --prompt "Briefly describe the current screen activity. Please keep it under 100 words" \
   --system "You are a screen monitoring assistant."

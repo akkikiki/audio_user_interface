@@ -9,6 +9,8 @@ import json
 import sys
 import os
 import time
+import subprocess
+import platform
 from datetime import datetime
 from PIL import ImageGrab
 import argparse
@@ -25,15 +27,54 @@ def capture_screenshot(output_path=None):
         str: Path to the saved screenshot
     """
     if output_path is None:
+        # Create screenshots directory if it doesn't exist
+        screenshots_dir = "screenshots"
+        os.makedirs(screenshots_dir, exist_ok=True)
+
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        output_path = f"screenshot_{timestamp}.png"
+        output_path = os.path.join(screenshots_dir, f"screenshot_{timestamp}.png")
 
     print(f"Capturing screenshot...")
-    screenshot = ImageGrab.grab()
-    screenshot.save(output_path)
-    print(f"Screenshot saved to: {output_path}")
+
+    # Use native screenshot tool based on platform
+    if platform.system() == "Darwin":  # macOS
+        # Use macOS native screencapture command for better compatibility
+        try:
+            subprocess.run(['screencapture', '-x', output_path], check=True)
+            print(f"Screenshot saved to: {output_path}")
+        except subprocess.CalledProcessError as e:
+            print(f"Error capturing screenshot with screencapture: {e}", file=sys.stderr)
+            print("Falling back to PIL ImageGrab...", file=sys.stderr)
+            screenshot = ImageGrab.grab()
+            screenshot.save(output_path)
+            print(f"Screenshot saved to: {output_path}")
+    else:
+        # Use PIL for other platforms (Windows, Linux)
+        screenshot = ImageGrab.grab()
+        screenshot.save(output_path)
+        print(f"Screenshot saved to: {output_path}")
 
     return output_path
+
+
+def text_to_speech(text):
+    """
+    Convert text to speech using macOS 'say' command.
+
+    Args:
+        text: Text to speak
+    """
+    if not text or not text.strip():
+        return
+
+    print("\nSpeaking response...")
+    try:
+        # Use macOS say command
+        subprocess.run(['say', text], check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error with text-to-speech: {e}", file=sys.stderr)
+    except FileNotFoundError:
+        print("Error: 'say' command not found. Text-to-speech is only available on macOS.", file=sys.stderr)
 
 
 def send_to_endpoint(image_path, prompt, model="mlx-community/gemma-3n-E2B-it-4bit",
@@ -52,7 +93,7 @@ def send_to_endpoint(image_path, prompt, model="mlx-community/gemma-3n-E2B-it-4b
         max_tokens: Maximum tokens in response
 
     Returns:
-        Response from the endpoint
+        tuple: (response, response_text) - Response object and extracted text
     """
     # Get absolute path
     abs_image_path = os.path.abspath(image_path)
@@ -79,20 +120,31 @@ def send_to_endpoint(image_path, prompt, model="mlx-community/gemma-3n-E2B-it-4b
         response = requests.post(endpoint, headers=headers, json=payload, stream=stream)
         response.raise_for_status()
 
+        response_text = ""
+
         if stream:
             print("Response (streaming):")
             print("-" * 80)
             for line in response.iter_lines():
                 if line:
-                    print(line.decode('utf-8'))
+                    decoded_line = line.decode('utf-8')
+                    print(decoded_line)
+                    # Collect the text for TTS
+                    response_text += decoded_line + " "
             print("-" * 80)
         else:
             print("Response:")
             print("-" * 80)
-            print(json.dumps(response.json(), indent=2))
+            response_json = response.json()
+            print(json.dumps(response_json, indent=2))
             print("-" * 80)
+            # Extract text from JSON response (adjust key based on your API's response format)
+            if isinstance(response_json, dict):
+                response_text = response_json.get('text', response_json.get('response', str(response_json)))
+            else:
+                response_text = str(response_json)
 
-        return response
+        return response, response_text.strip()
 
     except requests.exceptions.RequestException as e:
         print(f"Error: Failed to connect to endpoint: {e}", file=sys.stderr)
@@ -115,7 +167,7 @@ def main():
     )
     parser.add_argument(
         "--model", "-m",
-        default="mlx-community/Qwen2.5-VL-32B-Instruct-8bit",
+        default="mlx-community/gemma-3n-E2B-it-4bit",
         help="Model name to use"
     )
     parser.add_argument(
@@ -154,6 +206,11 @@ def main():
         default=30,
         help="Interval in seconds between captures in continuous mode (default: 30)"
     )
+    parser.add_argument(
+        "--speak",
+        action="store_true",
+        help="Read the response aloud using text-to-speech (macOS only)"
+    )
 
     args = parser.parse_args()
 
@@ -172,7 +229,7 @@ def main():
                 screenshot_path = capture_screenshot(args.output)
 
                 try:
-                    send_to_endpoint(
+                    response, response_text = send_to_endpoint(
                         image_path=screenshot_path,
                         prompt=args.prompt,
                         model=args.model,
@@ -181,6 +238,10 @@ def main():
                         stream=not args.no_stream,
                         max_tokens=args.max_tokens
                     )
+
+                    # Speak the response if requested
+                    if args.speak and response_text:
+                        text_to_speech(response_text)
                 finally:
                     # Clean up screenshot unless user wants to keep it
                     if not args.keep_screenshot and not args.output:
@@ -198,7 +259,7 @@ def main():
         screenshot_path = capture_screenshot(args.output)
 
         try:
-            send_to_endpoint(
+            response, response_text = send_to_endpoint(
                 image_path=screenshot_path,
                 prompt=args.prompt,
                 model=args.model,
@@ -207,6 +268,10 @@ def main():
                 stream=not args.no_stream,
                 max_tokens=args.max_tokens
             )
+
+            # Speak the response if requested
+            if args.speak and response_text:
+                text_to_speech(response_text)
         finally:
             # Clean up screenshot unless user wants to keep it
             if not args.keep_screenshot and not args.output:

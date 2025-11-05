@@ -40,10 +40,18 @@
 Before running any scripts, you must start the mlx_vlm server:
 
 ```bash
-mlx_vlm.server --model mlx-community/Qwen2-VL-2B-Instruct-4bit --host 127.0.0.1 --port 8000
+mlx_vlm.server
 ```
 
 The server must be running for the capture and analysis scripts to work properly.
+
+**Note:** If you need to download models from Hugging Face, you may need to authenticate first:
+
+```bash
+huggingface-cli login
+```
+
+This is required for downloading gated models or for accessing models that require authentication.
 
 ### Dependencies
 This project uses MLX VLM (Vision Language Model) which includes:

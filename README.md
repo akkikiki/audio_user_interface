@@ -4,7 +4,9 @@
 
 https://github.com/user-attachments/assets/7f51cdb4-adf5-4601-8207-45721efd5ad7
 
+## Summary
 
+This project currently uses the default macOS text-to-speech (TTS) system for audio output via the `say` command.
 
 ## Setup Instructions
 

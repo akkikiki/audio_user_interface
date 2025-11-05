@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+vi#!/usr/bin/env python3
 """
 Voice Input and Transcription Script
 Records voice input and sends it to a local audio model endpoint for transcription.

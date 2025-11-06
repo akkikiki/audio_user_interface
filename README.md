@@ -1,5 +1,9 @@
 # audio_user_interface
 
+## Objective
+
+This project aims to enable developers to work away from their screens as much as possible. By providing audio-based feedback and voice-controlled interfaces, developers using Claude Code can stay informed about their development environment without being tethered to their displays. The ultimate goal is to create a hands-free, eyes-free workflow that reduces screen time while maintaining productivity.
+
 ## Demo
 
 https://github.com/user-attachments/assets/7f51cdb4-adf5-4601-8207-45721efd5ad7

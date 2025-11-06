@@ -2,7 +2,7 @@
 
 ## Objective
 
-This project aims to enable developers to work away from their screens as much as possible. By providing audio-based feedback and voice-controlled interfaces, developers using Claude Code can stay informed about their development environment without being tethered to their displays. The ultimate goal is to create a hands-free, eyes-free workflow that reduces screen time while maintaining productivity.
+This project aims to enable developers to work away from their screens as much as possible. By providing audio-based feedback and voice-controlled interfaces, developers using Claude Code can stay informed about their development environment without being tethered to their displays. The ultimate goal is to create a hands-free, eyes-free workflow that reduces screen time to less than six hours per day[[1]](https://pmc.ncbi.nlm.nih.gov/articles/PMC5574844/) while maintaining productivity.
 
 ## Demo
 
@@ -85,3 +85,7 @@ python scripts/capture_and_analyze.py --speak --voice "Ryoko"
 ```
 
 Note: The `--voice` parameter works with macOS text-to-speech. Use `say -v ?` to list all available voices.
+
+## References
+
+[1] Madhav KC, Sherchand SP, Sherchan S. Association between screen time and depression among US adults. Prev Med Rep. 2017 Aug;8:67-71. doi: 10.1016/j.pmedr.2017.08.005. PMID: 28879110; PMCID: PMC5574844. https://pmc.ncbi.nlm.nih.gov/articles/PMC5574844/

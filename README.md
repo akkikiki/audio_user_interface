@@ -1,4 +1,6 @@
 # audio_user_interface
+![audio-ui-project-logo](https://github.com/user-attachments/assets/92d7ef7c-c60c-4365-8cd0-d7d802fac9fe)
+
 
 ## Objective
 
